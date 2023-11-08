@@ -1,0 +1,39 @@
+
+while using @OneToOne mapping
+org.hibernate.TransientPropertyValueException: object references an unsaved transient instance - save the transient instance before flushing : com.poc.sb.jpa.entity.Bank.address ->
+
+solution >> Use Cascading.All
+
+org.hibernate.PersistentObjectException: detached entity passed to persist
+
+solution >> Use Cascading.MERGE 
+
+com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor
+and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) 
+(through reference chain: com.poc.sb.jpa.entity.Bank["address"]->com.poc.sb.jpa.entity.Address$HibernateProxy$120Zc2f2["hibernateLazyInitializer"])
+
+solution >> @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+
+com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot handle managed/back reference 'defaultReference': no back reference property found from type `java.util.List<com.poc.sb.jpa.entity.Account>`
+2022-08-13 17:50:43.791  WARN 17028 --- [nio-8082-exec-1] .c.j.MappingJackson2HttpMessageConverter : Failed to evaluate Jackson deserialization for type [[simple type, class com.poc.sb.jpa.entity.Account]]:
+com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot handle managed/back reference 'defaultReference': no back reference property found from type `java.util.List<com.poc.sb.jpa.entity.Account>`
+
+solution >> @JsonManagedReference child level and @JsonBackReference at parent level for @oneToMany association
+
+java.lang.StackOverflowError] with root cause >> java.lang.StackOverflowError: null
+when : when i call toString() from Accountservice to print child data (i.e. customer )
+
+solution 
+
+issue : org.hibernate.HibernateException: A collection with cascade="all-delete-orphan" was no longer referenced by the owning entity 
+when : while updating child entity (Customer) 
+solution : after mappedby attribute orphanRemoval = true
+
+issue : Caused by: org.hibernate.AnnotationException: Illegal attempt to map a non collection as a @OneToMany, @ManyToMany or @CollectionOfElements: 
+when : while using @OneToMany attribute was object(i.e. Object
+colution : while using @OneToMany attribute Should be collection object(i.e. List<Object> , set<Object>..
+
+issue : Caused by: org.hibernate.AnnotationException: Associations marked as mappedBy must not define database mappings like @JoinTable or @JoinColumn: com.poc.sb.jpa.entity.Bank.branchs
+when : we use mappedBy and @joinColumn in same entity 
+solution : @JoinColumn should work as Parent/forien key and mappedBy will map with parent entity attibute
+
