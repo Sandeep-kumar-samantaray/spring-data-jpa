@@ -29,7 +29,8 @@ public class Account implements Serializable{
 	@ManyToOne(cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
 	@JoinColumn(name = "cust_id")
 	private Customer customer;
-	
+
+
 	public Account() {
 		super();
 	}
