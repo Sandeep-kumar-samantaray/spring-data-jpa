@@ -1,10 +1,16 @@
 package com.poc.sb.jpa.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -27,32 +33,19 @@ public class Customer implements Serializable{
 	private Long phoneNum;
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "customer" , fetch = FetchType.LAZY)
-	private List<Account> account = new ArrayList<>();
-
-	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "customerAddress" , fetch = FetchType.LAZY)
-	private List<Address> address = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "customer")
+	private List<Account> account;
 
 	public Customer() {
 		super();
 	}
 
 	public Customer(Long id, String name, Long phoneNum, List<Account> account) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.phoneNum = phoneNum;
 		this.account = account;
-	}
-
-	@Override
-	public String toString() {
-		return "Customer{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", phoneNum=" + phoneNum +
-				", account=" + account +
-				'}';
 	}
 
 	public Long getId() {
@@ -87,4 +80,8 @@ public class Customer implements Serializable{
 		this.account = account;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", phoneNum=" + phoneNum + ", account=" + account + "]";
+	}
 }

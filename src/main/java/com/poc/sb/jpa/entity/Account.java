@@ -27,7 +27,7 @@ public class Account implements Serializable{
 	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
-	@JoinColumn(name = "cust_id")
+	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
 

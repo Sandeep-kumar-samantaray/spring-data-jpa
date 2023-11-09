@@ -1,7 +1,5 @@
 package com.poc.sb.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -26,22 +24,17 @@ public class Address  implements Serializable{
 	@OneToOne(cascade = CascadeType.ALL,mappedBy = "address")
 	private Bank bank;
 
-	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
-	@JoinColumn(name = "customer_id")
-	private Customer customerAddress;
-
 	public Address() {
 		super();
 	}
 
-	public Address(Long id, String lineName, String city, String state, Long zipCode, Bank bank ) {
+	public Address(Long id, String lineName, String city, String state, Long zipCode) {
+		super();
 		this.id = id;
 		this.lineName = lineName;
 		this.city = city;
 		this.state = state;
 		this.zipCode = zipCode;
-		this.bank = bank;
 	}
 
 	public Long getId() {
